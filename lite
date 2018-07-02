@@ -170,15 +170,8 @@
 
 				fopen($modelOrmPathFinal, "w");
 				file_put_contents($modelOrmPathFinal, $ormClass);
-
 				echo $tableClass."Model as been created.\n";
-
-				//echo "<pre>";
-				//	print_r($tableClass);
-				//	print_r($columnsList);
-				//echo "</pre>";
 				$ormClass = "";
-
 			}
 		}
 	}elseif($commandStored == "help"){
@@ -200,7 +193,4 @@
 	}else{
 		echo "Command not recognized.";
 	}
-
-	// php generate bundle <folder>/<view> (view + model + controller)
-	// php generate page <folder>/<view>
 ?>
