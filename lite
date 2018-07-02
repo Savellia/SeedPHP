@@ -1,0 +1,206 @@
+<?php
+	foreach($argv as $key => $data){
+		if($key == 1){
+			// Get the command asked
+			$commandStored = $data;
+		}elseif($key == 2){
+			// Get arguments of the command
+			$argumentStored = $data;
+		}elseif($key > 3){
+			// Get arguments of the command
+			$optionStored[] = $data;
+		}
+	}
+
+	if(isset($commandStored) && !empty($commandStored) && isset($argumentStored) && !empty($argumentStored)){
+
+		$controllerPath = "./controller/";
+		$corePath = "./controller/core";
+		$modelPath = "./model/";
+		$filePath = "./view/".$argumentStored.".php";
+		$folderPath = "";
+		$parsing = explode("/", $filePath);
+		array_pop($parsing);
+
+		foreach($parsing as $key => $item){
+			$folderPath .= $item."/";
+		}
+
+		if($commandStored == "bundle"){
+
+			if($folderPath == "./view/"){
+				echo "You need to include a folder.\n";
+				echo "Example:\n";
+				echo "$ php lite bundle nameOfFolder/nameOfFileWithoutExtension\n";
+				echo "$ php lite bundle default/index";
+			}else{
+
+				if(!file_exists($folderPath)){
+					mkdir($folderPath, 0700);
+				}
+				if(!file_exists($filePath)){
+					$viewContent = "<?php require \"../../$corePath/core.php\"; ?>\n";
+					$viewContent .= "Hello world from the view !";
+
+					fopen($filePath, "w");
+					file_put_contents($filePath, $viewContent);
+
+					echo "View has been created.\n";
+				}else{
+					echo "View already exists.\n";
+				}
+
+				$name = "";
+				$parsing = explode("/", $argumentStored);
+
+				foreach($parsing as $key => $item){
+					$folderPath .= $item."/";
+					if($key == 0){
+						$name .= $item;
+					}else{
+						$name .= ucfirst($item);
+					}
+				}
+				$controllerName = $name."Controller";
+				$modelName = $name."Model";
+
+				$controller = $controllerPath.$controllerName.".php";
+				if(!file_exists($controller)){
+					$controllerContent  = "<?php\n";
+					$controllerContent .= "	 	namespace App\controller;\n\n";
+					$controllerContent .= "		use App\model\\{$modelName} as {$modelName};\n\n";
+					$controllerContent .= "		class {$controllerName}{\n";
+					$controllerContent .= "			// It's your first function in the controller, edit it as you want.\n";
+					$controllerContent .= "			static function helloWorldFromAll(){\n";
+					$controllerContent .= "				\$data[\"controller\"] = array('Hello world from the controller !');\n";
+					$controllerContent .= "				\$data[\"model\"] = {$modelName}::helloWorld();\n";
+					$controllerContent .= "				return \$data;\n";
+					$controllerContent .= "			}\n\n";
+					$controllerContent .= "			// Gateway to send information in the view.\n";
+					$controllerContent .= "			static function view(){\n";
+					$controllerContent .= "			return {$controllerName}::helloWorldFromAll();\n";
+					$controllerContent .= "			}\n";
+					$controllerContent .= "		}\n";
+					$controllerContent .= "?>";
+
+					fopen($controller, "w");
+					file_put_contents($controller, $controllerContent);
+
+					echo "Controller has been created ($controllerName.php).\n";
+				}else{
+					echo "Controller already exists ($controllerName.php).\n";
+				}
+
+				$model = $modelPath.$modelName.".php";
+				if(!file_exists($model)){
+					$modelContent  = "<?php\n";
+					$modelContent .= "		namespace App\model;\n\n";
+					$modelContent .= "		use App\sql as sql;\n\n";
+					$modelContent .= "		class {$modelName}{\n";
+					$modelContent .= "			// It's your first function in the model, edit it as you want. (ORM, PDO...)\n";
+					$modelContent .= "			static function helloWorld(){\n";
+					$modelContent .= "				\$data = array('Hello world from the model !');\n";
+					$modelContent .= "				return \$data;\n";
+					$modelContent .= "			}\n";
+					$modelContent .= "		}\n";
+					$modelContent .= "?>";
+
+					fopen($model, "w");
+					file_put_contents($model, $modelContent);
+					echo "Model for the page has been created ($modelName.php).\n";
+				}else{
+					echo "Model already exists ($modelName.php).\n";
+				}
+			}
+		}elseif($commandStored == "page"){
+			
+			if($folderPath == "./view/"){
+				echo "You need to include a folder.\n";
+				echo "Example:\n";
+				echo "$ php lite page nameOfFolder/nameOfFileWithoutExtension\n";
+				echo "$ php lite page default/index";
+			}else{
+
+				if(!file_exists($folderPath)){
+					mkdir($folderPath, 0700);
+				}
+				if(!file_exists($filePath)){
+					fopen($filePath, "w");
+					echo "View has been created.\n";
+				}else{
+					echo "View already exists.\n";
+				}
+			}
+		}elseif($commandStored == "orm"){
+
+			require "./config.php";
+			require "./controller/core/sql.php";
+
+			$ormFiles = glob("./model/orm/*");
+			$modelOrmPath = "./model/orm/";
+			foreach($ormFiles as $ormFile){
+				if(is_file($ormFile)){ unlink($ormFile); }
+			}
+
+			$ormClass = "";
+			$currentdbTable =  \App\sql::request("select database() AS 'current'")[0]["current"];
+			$tablesList =  \App\sql::table($currentdbTable);
+
+			echo "Path: ./model/orm/\n";
+			for($cpt = 0 ; $cpt < count($tablesList) ; $cpt++){
+				$tableClass = $tablesList[$cpt]["TABLE_NAME"];
+				$columnsList =  \App\sql::column($tableClass);
+
+				$ormClass  = "<?php\n";
+				$ormClass .= "		namespace App\model\orm;\n\n";
+				$ormClass .= "		use App\orm as orm; \n";
+				$ormClass .= "		use App\sql as sql; \n\n";
+				$ormClass .= "		class {$tableClass}Model extends orm {\n\n";
+				$ormClass .= "			private \$concat;\n";
+
+				for($cpt2 = 0 ; $cpt2 < count($columnsList) ; $cpt2++){
+					$ormClass .= "		\tpublic \$".$columnsList[$cpt2]["COLUMN_NAME"].";\n";
+				}
+
+				$ormClass .= "\n";
+				$ormClass .= "		}\n";
+				$ormClass .= "?>\n";
+
+				$modelOrmPathFinal = $modelOrmPath.$tableClass."Model.php";
+
+				fopen($modelOrmPathFinal, "w");
+				file_put_contents($modelOrmPathFinal, $ormClass);
+
+				echo $tableClass."Model as been created.\n";
+
+				//echo "<pre>";
+				//	print_r($tableClass);
+				//	print_r($columnsList);
+				//echo "</pre>";
+				$ormClass = "";
+
+			}
+		}
+	}elseif($commandStored == "help"){
+			echo "/////////////\n";
+			echo "// Help me //\n";
+			echo "/////////////\n\n";
+
+			echo "Generate a page (View):\n";
+			echo "   $ php lite page <folder>/<view>\n\n";
+
+			echo "Generate a bundle (Model + View + Controller):\n";
+			echo "   $ php lite bundle <folder>/<view>\n\n";
+
+			echo "Build/Update your database to class (ORM):\n";
+			echo "   $ php lite orm init\n\n";
+
+			echo "Documentation:\n";
+			echo "   -> seedphp.net";
+	}else{
+		echo "Command not recognized.";
+	}
+
+	// php generate bundle <folder>/<view> (view + model + controller)
+	// php generate page <folder>/<view>
+?>
