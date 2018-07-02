@@ -117,6 +117,12 @@
 		eval($controllerInit);
 	}
 
+
+	if($_ENV['debug']){
+		$debug = new debug();
+		$debug->all();
+	}
+
 	echo "<pre>";
 		print_r($view);
 	echo "<pre>";

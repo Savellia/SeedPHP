@@ -25,5 +25,5 @@
 
 	# Load Debug interface
 	# Charger l'interface de debug
-	$_ENV["debug"] = false;
+	$_ENV["debug"] = true;
 ?>
