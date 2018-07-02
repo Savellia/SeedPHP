@@ -185,8 +185,8 @@
 			echo "Generate a bundle (Model + View + Controller):\n";
 			echo "   $ php lite bundle <folder>/<view>\n\n";
 
-			echo "Build/Update your database to class (ORM):\n";
-			echo "   $ php lite orm init\n\n";
+			echo "Install/Update your database to class (ORM):\n";
+			echo "   $ php lite orm install\n\n";
 
 			echo "Documentation:\n";
 			echo "   -> seedphp.net";
