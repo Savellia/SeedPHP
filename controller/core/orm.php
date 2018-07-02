@@ -22,14 +22,14 @@
 			$parsing = explode("\\", get_called_class());
 			$table = str_replace("Model", "", end($parsing));
 
-			return sql::request("SELECT count(*) as count FROM ".$table);
+			return sql::request("SELECT * FROM ".$table);
 		}
 
 		static function getCount(){
 			$parsing = explode("\\", get_called_class());
 			$table = str_replace("Model", "", end($parsing));
 
-			return sql::request("SELECT * FROM ".$table);
+			return sql::request("SELECT count(*) as count FROM ".$table);
 		}
 
 		static function getAll(){ // ALIAS OF findAll function

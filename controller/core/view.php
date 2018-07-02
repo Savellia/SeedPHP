@@ -1,5 +1,5 @@
 <?php
-	namespace App;
+	/**namespace App;
 
 	use App\core;
 
@@ -24,5 +24,5 @@
 			return header("Location: $view");
 		}
 	}
-	//$view = new view();
+	//$view = new view();**/
 ?>

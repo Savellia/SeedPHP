@@ -50,6 +50,24 @@
 				$sessionData = "No data.";
 			}
 
+			if(isset($_ENV["sqlDebugAll"])) {
+				if(count($_ENV["sqlDebugAll"]) > 0){
+					$cpt = 0;
+					foreach($_ENV["sqlDebugAll"] as $line){
+						$sqlData[] = $line;
+						$cpt++;
+					}
+					unset($_ENV["sqlDebugAll"]);
+					if($cpt == 0){
+						$sqlData = "No data.";
+					}
+				}else{
+					$sqlData = "No data.";
+				}
+			}else{
+				$sqlData = "No data.";
+			}
+
 			$unit = array('b','kb','mb','gb','tb','pb');
 			$moreData["memoryImpact"] = @round(memory_get_usage(true)/pow(1024,($i=floor(log(memory_get_usage(true),1024)))),3).' '.$unit[$i];
 
@@ -114,7 +132,7 @@
 							<p><pre>".print_r($filesData, true)."</pre></p>
 						</div>
 						<div class='tab5'>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, nobis culpa rem, vitae earum aliquid.</p>
+							<p><pre>".print_r($sqlData, true)."</pre></p>
 						</div>
 						<div class='tab6'>
 							<p><pre>".print_r($sessionData, true)."</pre></p>

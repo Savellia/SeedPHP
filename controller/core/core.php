@@ -123,7 +123,7 @@
 		$debug->all();
 	}
 
-	echo "<pre>";
-		print_r($view);
-	echo "<pre>";
+	//echo "<pre>";
+	//	print_r($view);
+	//echo "<pre>";
 ?>
