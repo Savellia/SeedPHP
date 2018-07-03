@@ -136,42 +136,46 @@
 			require "./config.php";
 			require "./controller/core/sql.php";
 
-			$ormFiles = glob("./model/orm/*");
-			$modelOrmPath = "./model/orm/";
-			foreach($ormFiles as $ormFile){
-				if(is_file($ormFile)){ unlink($ormFile); }
-			}
-
-			$ormClass = "";
-			$currentdbTable =  \App\sql::request("select database() AS 'current'")[0]["current"];
-			$tablesList =  \App\sql::table($currentdbTable);
-
-			echo "Path: ./model/orm/\n";
-			for($cpt = 0 ; $cpt < count($tablesList) ; $cpt++){
-				$tableClass = $tablesList[$cpt]["TABLE_NAME"];
-				$columnsList =  \App\sql::column($tableClass);
-
-				$ormClass  = "<?php\n";
-				$ormClass .= "		namespace App\model\orm;\n\n";
-				$ormClass .= "		use App\orm as orm; \n";
-				$ormClass .= "		use App\sql as sql; \n\n";
-				$ormClass .= "		class {$tableClass}Model extends orm {\n\n";
-				$ormClass .= "			private \$concat;\n";
-
-				for($cpt2 = 0 ; $cpt2 < count($columnsList) ; $cpt2++){
-					$ormClass .= "		\tpublic \$".$columnsList[$cpt2]["COLUMN_NAME"].";\n";
+			if(isset($_ENV["sqlConnector"])){
+				$ormFiles = glob("./model/orm/*");
+				$modelOrmPath = "./model/orm/";
+				foreach($ormFiles as $ormFile){
+					if(is_file($ormFile)){ unlink($ormFile); }
 				}
 
-				$ormClass .= "\n";
-				$ormClass .= "		}\n";
-				$ormClass .= "?>\n";
-
-				$modelOrmPathFinal = $modelOrmPath.$tableClass."Model.php";
-
-				fopen($modelOrmPathFinal, "w");
-				file_put_contents($modelOrmPathFinal, $ormClass);
-				echo $tableClass."Model as been created.\n";
 				$ormClass = "";
+				$currentdbTable =  \App\sql::request("select database() AS 'current'")[0]["current"];
+				$tablesList =  \App\sql::table($currentdbTable);
+
+				echo "Path: ./model/orm/\n";
+				for($cpt = 0 ; $cpt < count($tablesList) ; $cpt++){
+					$tableClass = $tablesList[$cpt]["TABLE_NAME"];
+					$columnsList =  \App\sql::column($tableClass);
+
+					$ormClass  = "<?php\n";
+					$ormClass .= "		namespace App\model\orm;\n\n";
+					$ormClass .= "		use App\orm as orm; \n";
+					$ormClass .= "		use App\sql as sql; \n\n";
+					$ormClass .= "		class {$tableClass}Model extends orm {\n\n";
+					$ormClass .= "			private \$concat;\n";
+
+					for($cpt2 = 0 ; $cpt2 < count($columnsList) ; $cpt2++){
+						$ormClass .= "		\tpublic \$".$columnsList[$cpt2]["COLUMN_NAME"].";\n";
+					}
+
+					$ormClass .= "\n";
+					$ormClass .= "		}\n";
+					$ormClass .= "?>\n";
+
+					$modelOrmPathFinal = $modelOrmPath.$tableClass."Model.php";
+
+					fopen($modelOrmPathFinal, "w");
+					file_put_contents($modelOrmPathFinal, $ormClass);
+					echo $tableClass."Model as been created.\n";
+					$ormClass = "";
+				}
+			}else{
+				echo "Error :: Please, check your SQL connection credentials in './config.php'. ";
 			}
 		}
 	}elseif($commandStored == "help"){
