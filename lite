@@ -125,7 +125,13 @@
 					mkdir($folderPath, 0700);
 				}
 				if(!file_exists($filePath)){
+
+					$viewContent = "<?php require \"../../$corePath/core.php\"; ?>\n";
+					$viewContent .= "Hello world from the view !";
+					
 					fopen($filePath, "w");
+					file_put_contents($filePath, $viewContent);
+
 					echo "View has been created.\n";
 				}else{
 					echo "View already exists.\n";
