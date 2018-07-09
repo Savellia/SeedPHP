@@ -19,7 +19,7 @@
 
 	# Load the ORM (Object-Relational Mapping)
 	# Charger le MOR (Mapping Objet-Relationnel)
-	$_ENV["orm_access"] = true;
+	$_ENV["orm_access"] = false;
 
 	# Select your default <folder/view>
 	# Selectionner votre <dossier/vue>
