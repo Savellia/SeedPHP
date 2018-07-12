@@ -57,7 +57,7 @@
 		    	}elseif(preg_match($minRegex, $allCheckup[$cpt])){ // min:<int>
 
 		    		if(strlen($variable) < substr($allCheckup[$cpt], 4)){
-		    			$returnCheckup["error"]["max"] = "not enough characters.";
+		    			$returnCheckup["error"]["min"] = "not enough characters.";
 		    		}
 		    		
 		    	}else{
