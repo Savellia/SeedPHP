@@ -3,7 +3,7 @@
 
 	# Configure your SQL connection with PDO
 	# Configurer votre connexion SQL avec PDO
-	/*
+	/**
 	$_ENV["sqlConnector"] = array(
 								"dbHost" => "localhost",
 								"dbUser" => "root",
@@ -11,7 +11,7 @@
 								"dbName" => "project",
 								"dbDriver" => "mysql"
 							);
-	*/
+	**/
 	
 	# Enable sessions
 	# Activer les sessions
