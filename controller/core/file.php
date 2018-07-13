@@ -1,5 +1,5 @@
 <?php
-	namespace App\controller;
+	namespace App;
 
 	class file{
 		static function name($file){
@@ -14,10 +14,10 @@
 			return $file;
 		}
 
-		static function upload($file,$path){
+		static function upload($file,$path,$name){
 			if($file["error"] == 0){
 				$tmp_name = $file["tmp_name"];
-				$name = $file["name"];
+				$name = $name.".".file::extension($file["name"]);
 				move_uploaded_file($tmp_name, $path.$name);
 				return true;
 			}else { 
