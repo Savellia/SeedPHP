@@ -83,7 +83,7 @@
 			$controllerName = explode("/view/",$_SERVER['SCRIPT_FILENAME']);
 			$controllerName = explode("/",$controllerName[1]);
 			$controllerNameTmp = explode(".",end($controllerName));
-			$controllerFilename = ucfirst(strtolower(reset($controllerNameTmp)))."Controller";
+			$controllerFilename = ucfirst(reset($controllerNameTmp))."Controller";
 			array_pop($controllerName);
 			$controllerFinalName = "";
 			$cpt = 0;
