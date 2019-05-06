@@ -16,6 +16,8 @@
 			$viewName = explode("/", $_SERVER["SCRIPT_NAME"]);
 			$viewName = $viewName[count($viewName)-2]."/".end($viewName);
 
+			if(!is_array($view)){ $view = []; }
+
 			if(count($view) > 0){
 				$viewData = $view;
 			}else{
