@@ -29,17 +29,13 @@
 					unset($_ENV["sqlDebugAll"]);
 				}
 
-				$startTime = microtime(true);
 				if($pdo_request->execute() && strtolower(substr($request, 0, 6))  == "select"){
 					$resultData = $pdo_request->fetchAll(\PDO::FETCH_NAMED);
-					$endTime = microtime(true);
 					return $resultData;
 				}else{
-					if($pdo_request->errorCode()){
-						$endTime = microtime(true);
-						return $pdo_request->errorCode();
+					if($pdo_request->errorCode() != "00000"){
+						return false;
 					}else{
-						$endTime = microtime(true);
 						return true;
 					}
 				}
