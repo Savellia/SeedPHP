@@ -43,7 +43,7 @@
 			$class = get_class();
 
 			$parsing = explode("\\", get_called_class());
-			$table = str_replace("Model2", "", end($parsing));
+			$table = str_replace("Model", "", end($parsing));
 			$part = "SELECT $param FROM $table ";
 
 			self::$concat .= $part;
