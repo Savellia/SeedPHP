@@ -44,16 +44,9 @@
 
 			$parsing = explode("\\", get_called_class());
 			$table = str_replace("Model2", "", end($parsing));
-
-			//echo print_r($parsing, true)."<br>";
-			//echo $table."<br>";
-
 			$part = "SELECT $param FROM $table ";
 
-			//echo $part;
-
-
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -65,7 +58,7 @@
 			}
 
 			$part = "DELETE FROM $table ";
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -77,7 +70,7 @@
 			}
 
 			$part = "DELETE FROM $table ";
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -102,7 +95,7 @@
 			}
 			$part = substr($part, 0, -2)." ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -127,7 +120,7 @@
 			}
 			$part = substr($part, 0, -2)." ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -140,7 +133,7 @@
 
 			$part = "INSERT INTO $table VALUES ($param)";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -153,7 +146,7 @@
 
 			$part = "INSERT INTO $table VALUES ($param)";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -177,7 +170,7 @@
 
 			$part = $part."($dataKey) VALUES ($dataValue)";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -201,7 +194,7 @@
 
 			$part = $part."($dataKey) VALUES ($dataValue)";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -211,7 +204,7 @@
 
 			$part = "SELECT $param FROM $table ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -221,7 +214,7 @@
 
 			$part = "SELECT $param FROM $table ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -231,7 +224,7 @@
 
 			$part = "SELECT $param FROM $table ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
@@ -284,63 +277,63 @@
 		static function where($param) {
 			$part = "WHERE $param ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function like($param) {
 			$part = "LIKE $param ";
 
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function between($param1, $param2) {
 			$part = "BETWEEN $param1 AND $param2 ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function notBetween($param1, $param2) {
 			$part = "NOT BETWEEN $param1 AND $param2 ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function andWhere($param) {
 			$part = "AND $param ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function orWhere($param) {
 			$part = "OR $param ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function limit($param) {
 			$part = "LIMIT $param ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function groupBy($param) {
 			$part = "GROUP BY $param ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
 		static function orderBy($param, $order = "ASC") {
 			$part = "ORDER BY $param $order ";
 			
-			self::$concat = $part;
+			self::$concat .= $part;
 			return self::$concat;
 		}
 
