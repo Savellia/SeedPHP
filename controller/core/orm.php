@@ -4,7 +4,7 @@
 	use App\sql as sql;
 
 	class orm{
-		private $concat;
+		static public $concat;
 
 		function __construct() {
 			$concat = "";
@@ -43,11 +43,18 @@
 			$class = get_class();
 
 			$parsing = explode("\\", get_called_class());
-			$table = str_replace("Model", "", end($parsing));
+			$table = str_replace("Model2", "", end($parsing));
+
+			//echo print_r($parsing, true)."<br>";
+			//echo $table."<br>";
 
 			$part = "SELECT $param FROM $table ";
-			$this->concat = $part;
-			return $this;
+
+			//echo $part;
+
+
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function delete($table = null) {
@@ -58,8 +65,8 @@
 			}
 
 			$part = "DELETE FROM $table ";
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function destroy($table = null) { // ALIAS OF delete function
@@ -70,8 +77,8 @@
 			}
 
 			$part = "DELETE FROM $table ";
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function update($array, $table = null) {
@@ -95,8 +102,8 @@
 			}
 			$part = substr($part, 0, -2)." ";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function modify($array, $table = null) { // ALIAS OF update function
@@ -120,8 +127,8 @@
 			}
 			$part = substr($part, 0, -2)." ";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function insert($param, $table = null) {
@@ -133,8 +140,8 @@
 
 			$part = "INSERT INTO $table VALUES ($param)";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function create($param, $table = null) { // ALIAS OF insert function
@@ -146,8 +153,8 @@
 
 			$part = "INSERT INTO $table VALUES ($param)";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function insertByColumn($array, $table = null) {
@@ -170,8 +177,8 @@
 
 			$part = $part."($dataKey) VALUES ($dataValue)";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function createByColumn($array, $table = null) { // ALIAS OF insertByColumn function
@@ -194,8 +201,8 @@
 
 			$part = $part."($dataKey) VALUES ($dataValue)";
 
-			$this->concat = $part;
-			return $this;
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function find($param = "*") { // ALIAS OF select function
@@ -203,8 +210,9 @@
 			$table = str_replace("Model", "", end($parsing));
 
 			$part = "SELECT $param FROM $table ";
-			$this->concat .= $part;
-			return $this;
+
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function read($param = "*") { // ALIAS OF select function
@@ -212,8 +220,9 @@
 			$table = str_replace("Model", "", end($parsing));
 
 			$part = "SELECT $param FROM $table ";
-			$this->concat .= $part;
-			return $this;
+
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function retrieve($param = "*") { // ALIAS OF select function
@@ -221,8 +230,9 @@
 			$table = str_replace("Model", "", end($parsing));
 
 			$part = "SELECT $param FROM $table ";
-			$this->concat .= $part;
-			return $this;
+
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		/**function count($param = "*") {
@@ -273,65 +283,76 @@
 
 		static function where($param) {
 			$part = "WHERE $param ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function like($param) {
 			$part = "LIKE $param ";
-			$this->concat .= $part;
-			return $this;
+
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function between($param1, $param2) {
 			$part = "BETWEEN $param1 AND $param2 ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function notBetween($param1, $param2) {
 			$part = "NOT BETWEEN $param1 AND $param2 ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function andWhere($param) {
 			$part = "AND $param ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function orWhere($param) {
 			$part = "OR $param ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function limit($param) {
 			$part = "LIMIT $param ";
-			$this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function groupBy($param) {
 			$part = "GROUP BY $param ";
-	    $this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function orderBy($param, $order = "ASC") {
 			$part = "ORDER BY $param $order ";
-	    $this->concat .= $part;
-			return $this;
+			
+			self::$concat = $part;
+			return self::$concat;
 		}
 
 		static function exec() {
-			$resultData = sql::request($this->concat);
+
+			echo self::$concat;
+			$resultData = sql::request(self::$concat);
 
 			if($resultData == "00000")
 				$resultData = true;
 
-			$this->concat = "";
+			self::$concat = "";
 			return $resultData;
 		}
 	}
