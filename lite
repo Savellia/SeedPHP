@@ -112,6 +112,80 @@
 					echo "Model already exists ($modelName.php).\n";
 				}
 			}
+		}elseif($commandStored == "controller"){
+
+				$name = "";
+				$parsing = explode("/", $argumentStored);
+
+				foreach($parsing as $key => $item){
+					$folderPath .= $item."/";
+					if($key == 0){
+						$name .= $item;
+					}else{
+						$name .= ucfirst($item);
+					}
+				}
+				$controllerName = $name."Controller";
+
+				$controller = $controllerPath.$controllerName.".php";
+				if(!file_exists($controller)){
+					$controllerContent  = "<?php\n";
+					$controllerContent .= "	 	namespace App\controller;\n\n";
+					$controllerContent .= "		class {$controllerName}{\n";
+					$controllerContent .= "			// It's your first function in the controller, edit it as you want.\n";
+					$controllerContent .= "			static function helloWorldFromAll(){\n";
+					$controllerContent .= "				\$data[\"controller\"] = array('Hello world from the controller !');\n";
+					$controllerContent .= "				return \$data;\n";
+					$controllerContent .= "			}\n\n";
+					$controllerContent .= "			// Gateway to send information in the view.\n";
+					$controllerContent .= "			static function view(){\n";
+					$controllerContent .= "			return {$controllerName}::helloWorldFromAll();\n";
+					$controllerContent .= "			}\n";
+					$controllerContent .= "		}\n";
+					$controllerContent .= "?>";
+
+					fopen($controller, "w");
+					file_put_contents($controller, $controllerContent);
+
+					echo "Controller has been created ($controllerName.php).\n";
+				}else{
+					echo "Controller already exists ($controllerName.php).\n";
+				}
+		}elseif($commandStored == "model"){
+
+				$name = "";
+				$parsing = explode("/", $argumentStored);
+
+				foreach($parsing as $key => $item){
+					$folderPath .= $item."/";
+					if($key == 0){
+						$name .= $item;
+					}else{
+						$name .= ucfirst($item);
+					}
+				}
+				$modelName = $name."Model";
+
+				$model = $modelPath.$modelName.".php";
+				if(!file_exists($model)){
+					$modelContent  = "<?php\n";
+					$modelContent .= "		namespace App\model;\n\n";
+					$modelContent .= "		use App\sql as sql;\n\n";
+					$modelContent .= "		class {$modelName}{\n";
+					$modelContent .= "			// It's your first function in the model, edit it as you want. (ORM, PDO...)\n";
+					$modelContent .= "			static function helloWorld(){\n";
+					$modelContent .= "				\$data = array('Hello world from the model !');\n";
+					$modelContent .= "				return \$data;\n";
+					$modelContent .= "			}\n";
+					$modelContent .= "		}\n";
+					$modelContent .= "?>";
+
+					fopen($model, "w");
+					file_put_contents($model, $modelContent);
+					echo "Model for the page has been created ($modelName.php).\n";
+				}else{
+					echo "Model already exists ($modelName.php).\n";
+				}
 		}elseif($commandStored == "page"){
 			
 			if($folderPath == "./view/"){
@@ -189,13 +263,19 @@
 			echo "// Help me //\n";
 			echo "/////////////\n\n";
 
+			echo "Generate a model:\n";
+			echo "   $ php lite model <name>\n\n";
+
 			echo "Generate a page (View):\n";
 			echo "   $ php lite page <folder>/<view>\n\n";
+
+			echo "Generate a controller:\n";
+			echo "   $ php lite controller <name>\n\n";
 
 			echo "Generate a bundle (Model + View + Controller):\n";
 			echo "   $ php lite bundle <folder>/<view>\n\n";
 
-			echo "Install/Update your database to class (ORM):\n";
+			echo "Convert your database to class (ORM):\n";
 			echo "   $ php lite orm install\n\n";
 
 			echo "Documentation:\n";
