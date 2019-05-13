@@ -52,7 +52,7 @@
 
 			// Chargement du contenu du dossier controller/core/.
 			foreach ($contentControllerCore as $item){
-				if($item != "core.php"){
+				if($item != "core.php" && $item != "index.html"){
 					require $pathControllerCore.$item;
 				}
 			}
@@ -60,20 +60,22 @@
 			// Chargement du contenu du dossier model/orm/.
 			if($_ENV["orm_access"]){
 				foreach ($contentModelOrm as $item){
-					require $pathModelOrm.$item;
+					if($item != "index.html"){
+						require $pathModelOrm.$item;
+					}
 				}
 			}
 
 			// Chargement du contenu du dossier model/.
 			foreach ($contentModel as $item){
-				if($item != "orm"){
+				if($item != "orm" && $item != "index.html"){
 					require $pathModel.$item;
 				}
 			}
 
 			// Chargement du contenu du dossier controller/.
 			foreach ($contentController as $item){
-				if($item != "core"){
+				if($item != "core" && $item != "index.html"){
 					require $pathController.$item;
 				}
 			}
