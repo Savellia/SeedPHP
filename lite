@@ -7,7 +7,7 @@
 			// Get arguments of the command
 			$argumentStored = $data;
 		}elseif($key > 3){
-			// Get arguments of the command
+			// Get options of the command
 			$optionStored[] = $data;
 		}
 	}
@@ -114,78 +114,78 @@
 			}
 		}elseif($commandStored == "controller"){
 
-				$name = "";
-				$parsing = explode("/", $argumentStored);
+			$name = "";
+			$parsing = explode("/", $argumentStored);
 
-				foreach($parsing as $key => $item){
-					$folderPath .= $item."/";
-					if($key == 0){
-						$name .= $item;
-					}else{
-						$name .= ucfirst($item);
-					}
-				}
-				$controllerName = $name."Controller";
-
-				$controller = $controllerPath.$controllerName.".php";
-				if(!file_exists($controller)){
-					$controllerContent  = "<?php\n";
-					$controllerContent .= "	 	namespace App\controller;\n\n";
-					$controllerContent .= "		class {$controllerName}{\n";
-					$controllerContent .= "			// It's your first function in the controller, edit it as you want.\n";
-					$controllerContent .= "			static function helloWorldFromAll(){\n";
-					$controllerContent .= "				\$data[\"controller\"] = array('Hello world from the controller !');\n";
-					$controllerContent .= "				return \$data;\n";
-					$controllerContent .= "			}\n\n";
-					$controllerContent .= "			// Gateway to send information in the view.\n";
-					$controllerContent .= "			static function view(){\n";
-					$controllerContent .= "			return {$controllerName}::helloWorldFromAll();\n";
-					$controllerContent .= "			}\n";
-					$controllerContent .= "		}\n";
-					$controllerContent .= "?>";
-
-					fopen($controller, "w");
-					file_put_contents($controller, $controllerContent);
-
-					echo "Controller has been created ($controllerName.php).\n";
+			foreach($parsing as $key => $item){
+				$folderPath .= $item."/";
+				if($key == 0){
+					$name .= $item;
 				}else{
-					echo "Controller already exists ($controllerName.php).\n";
+					$name .= ucfirst($item);
 				}
+			}
+			$controllerName = $name."Controller";
+
+			$controller = $controllerPath.$controllerName.".php";
+			if(!file_exists($controller)){
+				$controllerContent  = "<?php\n";
+				$controllerContent .= "	 	namespace App\controller;\n\n";
+				$controllerContent .= "		class {$controllerName}{\n";
+				$controllerContent .= "			// It's your first function in the controller, edit it as you want.\n";
+				$controllerContent .= "			static function helloWorldFromAll(){\n";
+				$controllerContent .= "				\$data[\"controller\"] = array('Hello world from the controller !');\n";
+				$controllerContent .= "				return \$data;\n";
+				$controllerContent .= "			}\n\n";
+				$controllerContent .= "			// Gateway to send information in the view.\n";
+				$controllerContent .= "			static function view(){\n";
+				$controllerContent .= "			return {$controllerName}::helloWorldFromAll();\n";
+				$controllerContent .= "			}\n";
+				$controllerContent .= "		}\n";
+				$controllerContent .= "?>";
+
+				fopen($controller, "w");
+				file_put_contents($controller, $controllerContent);
+
+				echo "Controller has been created ($controllerName.php).\n";
+			}else{
+				echo "Controller already exists ($controllerName.php).\n";
+			}
 		}elseif($commandStored == "model"){
 
-				$name = "";
-				$parsing = explode("/", $argumentStored);
+			$name = "";
+			$parsing = explode("/", $argumentStored);
 
-				foreach($parsing as $key => $item){
-					$folderPath .= $item."/";
-					if($key == 0){
-						$name .= $item;
-					}else{
-						$name .= ucfirst($item);
-					}
-				}
-				$modelName = $name."Model";
-
-				$model = $modelPath.$modelName.".php";
-				if(!file_exists($model)){
-					$modelContent  = "<?php\n";
-					$modelContent .= "		namespace App\model;\n\n";
-					$modelContent .= "		use App\sql as sql;\n\n";
-					$modelContent .= "		class {$modelName}{\n";
-					$modelContent .= "			// It's your first function in the model, edit it as you want. (ORM, PDO...)\n";
-					$modelContent .= "			static function helloWorld(){\n";
-					$modelContent .= "				\$data = array('Hello world from the model !');\n";
-					$modelContent .= "				return \$data;\n";
-					$modelContent .= "			}\n";
-					$modelContent .= "		}\n";
-					$modelContent .= "?>";
-
-					fopen($model, "w");
-					file_put_contents($model, $modelContent);
-					echo "Model for the page has been created ($modelName.php).\n";
+			foreach($parsing as $key => $item){
+				$folderPath .= $item."/";
+				if($key == 0){
+					$name .= $item;
 				}else{
-					echo "Model already exists ($modelName.php).\n";
+					$name .= ucfirst($item);
 				}
+			}
+			$modelName = $name."Model";
+
+			$model = $modelPath.$modelName.".php";
+			if(!file_exists($model)){
+				$modelContent  = "<?php\n";
+				$modelContent .= "		namespace App\model;\n\n";
+				$modelContent .= "		use App\sql as sql;\n\n";
+				$modelContent .= "		class {$modelName}{\n";
+				$modelContent .= "			// It's your first function in the model, edit it as you want. (ORM, PDO...)\n";
+				$modelContent .= "			static function helloWorld(){\n";
+				$modelContent .= "				\$data = array('Hello world from the model !');\n";
+				$modelContent .= "				return \$data;\n";
+				$modelContent .= "			}\n";
+				$modelContent .= "		}\n";
+				$modelContent .= "?>";
+
+				fopen($model, "w");
+				file_put_contents($model, $modelContent);
+				echo "Model for the page has been created ($modelName.php).\n";
+			}else{
+				echo "Model already exists ($modelName.php).\n";
+			}
 		}elseif($commandStored == "page"){
 			
 			if($folderPath == "./view/"){
@@ -257,6 +257,98 @@
 			}else{
 				echo "Error :: Please, check your SQL connection credentials in './config.php'. ";
 			}
+
+			require "./config.php";
+			require "./controller/core/sql.php";
+
+			if(isset($_ENV["sqlConnector"])){
+				$ormFiles = glob("./model/orm/*");
+				$modelOrmPath = "./model/orm/";
+				foreach($ormFiles as $ormFile){
+					if(is_file($ormFile)){ unlink($ormFile); }
+				}
+
+				$ormClass = "";
+				$currentdbTable =  \App\sql::request("select database() AS 'current'")[0]["current"];
+				$tablesList =  \App\sql::table($currentdbTable);
+
+				echo "Path: ./model/orm/\n";
+				for($cpt = 0 ; $cpt < count($tablesList) ; $cpt++){
+					$tableClass = $tablesList[$cpt]["TABLE_NAME"];
+					$columnsList =  \App\sql::column($tableClass);
+
+					$ormClass  = "<?php\n";
+					$ormClass .= "		namespace App\model\orm;\n\n";
+					$ormClass .= "		use App\orm as orm; \n";
+					$ormClass .= "		use App\sql as sql; \n\n";
+					$ormClass .= "		class {$tableClass}Model extends orm {\n\n";
+					$ormClass .= "			private \$concat;\n";
+
+					for($cpt2 = 0 ; $cpt2 < count($columnsList) ; $cpt2++){
+						$ormClass .= "		\tpublic \$".$columnsList[$cpt2]["COLUMN_NAME"].";\n";
+					}
+
+					$ormClass .= "\n";
+					$ormClass .= "		}\n";
+					$ormClass .= "?>\n";
+
+					$modelOrmPathFinal = $modelOrmPath.$tableClass."Model.php";
+
+					fopen($modelOrmPathFinal, "w");
+					file_put_contents($modelOrmPathFinal, $ormClass);
+					echo $tableClass."Model as been created.\n";
+					$ormClass = "";
+				}
+			}else{
+				echo "Error :: Please, check your SQL connection credentials in './config.php'. ";
+			}
+		}elseif($commandStored == "install-module"){
+
+			$url = "https://seedphp.net/modules/".$argumentStored;
+			$file = $argumentStored.".zip";
+			$ch = curl_init();
+			$timeout = 5;
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			$data = curl_exec($ch);
+			curl_setopt($ch, CURLOPT_HEADER, 1);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			curl_close($ch);
+
+			if($httpCode == 200){
+				if(file_put_contents($file,$data)){
+					echo "Downloading... OK \n";
+
+					if(file_exists($file)){
+						echo "Checking... OK \n";
+
+						$zip = new ZipArchive; 
+						if($zip->open($file)  === TRUE){
+							$zip->extractTo('./'); 
+							$zip->close();
+							echo "Deployment... OK \n";
+
+							if(unlink($file)){
+								echo "Cleaning... OK \n";
+								echo "Enjoy.\n";
+							}else{
+								echo "Cleaning... FAIL \n";
+							}
+						}else {
+							echo "Deployment... FAIL \n";
+						}
+					}else{
+						echo "Checking... FAIL \n";
+					}
+				}else{
+					echo "Downloading... FAIL \n";
+				}
+			}else{
+				echo "ERROR :: Please, check the name of your module. \n";
+			}
+
 		}
 	}elseif($commandStored == "help"){
 			echo "/////////////\n";
@@ -277,6 +369,10 @@
 
 			echo "Convert your database to class (ORM):\n";
 			echo "   $ php lite orm install\n\n";
+
+			echo "Install a module in your project:\n";
+			echo "   $ php lite install-module <name>\n";
+			echo "   -> You can find the module list on seedphp.net\n\n";
 
 			echo "Documentation:\n";
 			echo "   -> seedphp.net";
