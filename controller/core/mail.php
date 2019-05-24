@@ -44,25 +44,19 @@
 			}
 		}
 
-		static function cci($mailCci){
-			if(!isset(self::$headers["cci"]) && empty(self::$headers["cci"])){
-				self::$headers["Cci: "] = "$mailCci";
+		static function bcc($mailBcc){
+			if(!isset(self::$headers["bcc"]) && empty(self::$headers["bcc"])){
+				self::$headers["Bcc: "] = "$mailBcc";
 			}else{
-				self::$headers["Cci: "] .= ",$mailCci";
+				self::$headers["Bcc: "] .= ",$mailBcc";
 			}
 		}
 
-		static function isHTML($bool = false, $charset = null){
-			if($bool == true){
-				//self::$headers["html"] = "MIME-Version: 1.0 \n";
-				//self::$headers["html"] .= "Content-Type: multipart/mixed; \n";
-				//self::$headers["html"] .= "boundary=\"".self::$mime_boundary ."\""; 
-
-				/*if($charset != null){
-					self::$headers["html"] .= "; charset=\"$charset\" ";
-				}else{
-					self::$headers["html"] .= "; charset=iso-8859-1";
-				}*/
+		static function cci($mailCci){
+			if(!isset(self::$headers["bcc"]) && empty(self::$headers["bcc"])){
+				self::$headers["Bcc: "] = "$mailCci";
+			}else{
+				self::$headers["Bcc: "] .= ",$mailCci";
 			}
 		}
 
@@ -71,8 +65,6 @@
 		}
 
 		static function body($data, $charset = null){
-
-			//self::$mime_boundary = "==Multipart_Boundary_x".md5(time())."x";
 
 			self::$content["body"] = "--".self::$mime_boundary." \n";
 
@@ -101,16 +93,6 @@
 				}
 			}
 
-
-			echo "<pre>";
-			echo self::$content["body"] ."<br>";
-			echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>";
-			echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>";
-			print_r($finalHeader)."<br>";
-			echo "</pre>";
-
-			//echo self::$headers["To: "];
-			//return mail(self::$headers["To: "], self::$content["subject"], self::$content["body"], $finalHeader);
 			return mail(self::$headers["To: "], self::$content["subject"], self::$content["body"], $finalHeader);
 		}
 
