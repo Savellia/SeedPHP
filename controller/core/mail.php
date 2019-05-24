@@ -92,7 +92,10 @@
 			foreach (self::$headers as $key => $value) {
 
 				if($key != "html"){
-					$finalHeader .= $key.$value."\r\n";	
+
+					if($key != "To: "){
+						$finalHeader .= $key.$value."\r\n";	
+					}
 				}else{
 					$finalHeader .= $value."\r\n";
 				}
@@ -107,6 +110,7 @@
 			echo "</pre>";
 
 			//echo self::$headers["To: "];
+			//return mail(self::$headers["To: "], self::$content["subject"], self::$content["body"], $finalHeader);
 			return mail(self::$headers["To: "], self::$content["subject"], self::$content["body"], $finalHeader);
 		}
 
