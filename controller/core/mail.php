@@ -2,11 +2,13 @@
 	namespace App;
 
 	class mail {
+		
 		static public $headers;
 		static public $content;
 		static public $mime_boundary;
 
 		function __construct() {
+
 			self::$mime_boundary = "==Multipart_Boundary_x".md5(time())."x";
 		}
 
@@ -20,6 +22,7 @@
 		}
 
 		static function to($mailTo){
+
 			if(!isset(self::$headers["to"]) && empty(self::$headers["to"])){
 				self::$headers["To: "] = "$mailTo";
 			}else{
@@ -37,6 +40,7 @@
 		}
 
 		static function cc($mailCc){
+
 			if(!isset(self::$headers["cc"]) && empty(self::$headers["cc"])){
 				self::$headers["Cc: "] = "$mailCc";
 			}else{
@@ -45,6 +49,7 @@
 		}
 
 		static function bcc($mailBcc){
+
 			if(!isset(self::$headers["bcc"]) && empty(self::$headers["bcc"])){
 				self::$headers["Bcc: "] = "$mailBcc";
 			}else{
@@ -53,6 +58,7 @@
 		}
 
 		static function cci($mailCci){
+
 			if(!isset(self::$headers["bcc"]) && empty(self::$headers["bcc"])){
 				self::$headers["Bcc: "] = "$mailCci";
 			}else{
@@ -61,6 +67,7 @@
 		}
 
 		static function subject($data){
+
 			self::$content["subject"] = $data;
 		}
 
@@ -84,7 +91,6 @@
 			foreach (self::$headers as $key => $value) {
 
 				if($key != "html"){
-
 					if($key != "To: "){
 						$finalHeader .= $key.$value."\r\n";	
 					}
@@ -128,66 +134,16 @@
 
 				self::$content["body"] .= "--".self::$mime_boundary."--";
 			}
-
-
-
-/*
-$file = "C:\Users\Savelli\Downloads\img.png";
-
-///////////////////////$headers = "From: CodexWorld <adriensavelli@gmail.com> \n";
-///////////////////////$headers .= "MIME-Version: 1.0 \n";
-///////////////////////$headers .= "Content-Type: multipart/mixed;\n";
-///////////////////////$headers .=  " boundary=\"".self::$mime_boundary."\""; 
-
-///////////////////////$message = "--".self::$mime_boundary." \n";
-///////////////////////$message .= "Content-Type: text/html; charset=\"UTF-8\" \n";
-///////////////////////$message .= "Content-Transfer-Encoding: 7bit \n\n";
-///////////////////////$message .= "<h1>PHP Email with Attachment by CodexWorld</h1><p>This email has sent from PHP script with attachment.</p> \n\n"; 
-
-///////////////////////if(!empty($file) > 0){
-    if(is_file($file)){
-        $message .= "--".self::$mime_boundary." \n";
-        $fp =    @fopen($file,"rb");
-        $data =  @fread($fp,filesize($file));
-
-        @fclose($fp);
-        $data = chunk_split(base64_encode($data));
-        $message .= "Content-Type: application/octet-stream;";
-		$message .= "name=\"".basename($file)."\" \n";
-		$message .= "Content-Description: ".basename($file)." \n";
-		$message .= "Content-Disposition: attachment; \n";
-		$message .= "filename=\"".basename($file)."\";";	
-		$message .= "size=".filesize($file).";\n";
-		$message .= "Content-Transfer-Encoding: base64 \n\n";
-		$message .= $data . "\n\n";
-    }
-///////////////////////}
-///////////////////////$message .= "--".self::$mime_boundary."--";
-
-$mail = @mail('adriensavelli@live.fr', 'PHP Email with Attachment by CodexWorld', $message, $headers); 
-
-echo "<pre>";
-print_r($message);
-echo "<br>======================================================<br>";
-echo "======================================================<br>";
-print_r($headers);
-echo "</pre>";*/
-
 		}
 	}
-
-
 	/**
-
-
 		$mail = new mail();
-
 		$mail->to("***");
 		$mail->from("***");
 		$mail->cc("***");
 		$mail->cci("***");
+		$mail->bcc("***");
 		$mail->replyTo("***");
-		$mail->isHTML(true);
 		$mail->subject("***");
 		$mail->body("***");
 		$mail->send();
